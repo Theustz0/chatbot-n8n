@@ -4,6 +4,7 @@ Projeto de automação criado no n8n com foco em chatbot e fluxos inteligentes. 
 ## Fluxo da Automação
 
 ![Workflow](workflow-n8n.png)
+O fluxo utiliza um gatilho de chat conectado a um agente de IA com memória conversacional e integração em tempo real com Google Sheets para consulta da base de conhecimento.
 
 ###Chatbot Inteligente para Customer Success | Desafio Técnico
 
