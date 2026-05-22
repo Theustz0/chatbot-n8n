@@ -13,7 +13,7 @@ Projeto desenvolvido como solução para um desafio técnico com foco em automa�
 
 A proposta foi criar um chatbot inteligente capaz de responder dúvidas frequentes de clientes de uma plataforma de gestão para restaurantes, utilizando uma base de conhecimento estruturada e respostas contextualizadas em tempo real.
 
-Objetivo: 
+#####Objetivo: 
 
 Desenvolver uma solução escalável de atendimento automatizado capaz de:
 
@@ -32,7 +32,7 @@ Google Sheets como base de conhecimento
 
 O chatbot consulta uma base estruturada de FAQs e responde de forma humanizada, contextualizada e alinhada ao tom de voz da empresa.
 
-Processo de Construção
+######Processo de Construção
 
 Para construir a solução:
 
