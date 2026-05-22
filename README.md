@@ -1,7 +1,11 @@
 # chatbot-n8n
 Projeto de automação criado no n8n com foco em chatbot e fluxos inteligentes. Utiliza integrações e automações para otimizar processos, respostas automáticas e organização de tarefas.
 
-Chatbot Inteligente para Customer Success | Desafio Técnico
+## Fluxo da Automação
+
+![Workflow](workflow-n8n.png)
+
+###Chatbot Inteligente para Customer Success | Desafio Técnico
 
 Sobre o Projeto
 Projeto desenvolvido como solução para um desafio técnico com foco em automação de atendimento e Customer Success utilizando IA e N8N.
