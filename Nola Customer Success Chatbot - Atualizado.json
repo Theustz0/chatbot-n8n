@@ -1,0 +1,194 @@
+{
+  "name": "Nola Customer Success Chatbot",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Olá! 👋 Sou o assistente virtual da Nola. Digite sua dúvida sobre operação, impressoras, notas fiscais ou suporte técnico e te ajudo na hora!",
+        "options": {
+          "inputPlaceholder": "Digite sua pergunta...",
+          "subtitle": "⚡ Suporte técnico especializado 24h | Tire dúvidas sobre operação, fiscal, impressoras e muito mais. Estamos prontos para te ajudar!",
+          "title": "Nola | Suporte Inteligente",
+          "customCss": "body {\n  background-color: #0F0F1A;\n}\n\n.chat-window {\n  background-color: #1A1A2E;\n  border-radius: 16px;\n}\n\n.chat-header {\n  background-color: #16213E !important;\n  color: #ffffff !important;\n  border-radius: 16px 16px 0 0;\n}\n\n.chat-message-bot {\n  background-color: #16213E !important;\n  color: #ffffff !important;\n  border-radius: 0 12px 12px 12px;\n}\n\n.chat-message-user {\n  background-color: #1A4A8A !important;\n  color: #ffffff !important;\n  border-radius: 12px 0 12px 12px;\n}\n\n.chat-input {\n  background-color: #16213E !important;\n  color: #ffffff !important;\n  border: 1px solid #1A4A8A !important;\n  border-radius: 8px;\n}\n\n.chat-send-button {\n  background-color: #1A4A8A !important;\n  color: #ffffff !important;\n  border-radius: 8px;\n}"
+        }
+      },
+      "id": "71ac13a9-9b40-41ee-a7a4-57c3e641d33b",
+      "name": "Chat Trigger",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "29d4fd0a-93b3-4b1a-85f8-3e4b14fba351"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Você é o assistente de Customer Success da Nola. Seu objetivo é ajudar clientes usando as informações da planilha do Google Sheets. Responda em português de forma educada e clara."
+        }
+      },
+      "id": "50cd2239-a1bf-44cd-bdf4-f4ba5fe8c90e",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        280,
+        0
+      ],
+      "executeOnce": false,
+      "retryOnFail": false,
+      "alwaysOutputData": false,
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "17CBVn9EZvOXNCKizeT0UsLtxvAgSbMT_kVU5npvHHxE",
+          "mode": "list",
+          "cachedResultName": "Nola_FAQ_Base_Conhecimento",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17CBVn9EZvOXNCKizeT0UsLtxvAgSbMT_kVU5npvHHxE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 226505378,
+          "mode": "list",
+          "cachedResultName": "FAQ - Base de Conhecimento Nola",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17CBVn9EZvOXNCKizeT0UsLtxvAgSbMT_kVU5npvHHxE/edit#gid=226505378"
+        },
+        "options": {}
+      },
+      "id": "6478d703-9ba2-4434-b92b-0450b553877a",
+      "name": "Google Sheets Tool",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        480,
+        224
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "q7XfcXZmhVXxtkrl",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-4o-mini",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        224,
+        224
+      ],
+      "id": "19dc796e-9a95-4e97-9700-6d6093833332",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "sMeFJt1sin5VCUFV",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.sessionId }}",
+        "contextWindowLength": 10
+      },
+      "id": "db4878f4-49dc-463b-8027-c12dab8f7296",
+      "name": "Chat Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        352,
+        224
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        688,
+        0
+      ],
+      "id": "ce00d085-c26d-42fe-a87a-db4d49ce23f5",
+      "name": "No Operation, do nothing"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Chat Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "2aebb5cc-de6a-483a-bbc8-a4713555676b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6703c15f20a878315c170bd8989f2767c743b8ab01ebe375e8da6a0f8f6ac3cb"
+  },
+  "id": "In7hqVrSRNyHJxU0",
+  "tags": []
+}
